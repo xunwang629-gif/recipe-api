@@ -2,15 +2,16 @@ FROM eclipse-temurin:11-jdk
 
 WORKDIR /app
 
-# 安装 sbt 和网络工具
+# 安装基础工具
 RUN apt-get update && \
-    apt-get install -y curl netcat-openbsd gnupg && \
-    mkdir -p /etc/apt/keyrings && \
-    curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | gpg --dearmor -o /etc/apt/keyrings/sbt.gpg && \
-    echo "deb [signed-by=/etc/apt/keyrings/sbt.gpg] https://repo.scala-sbt.org/scalasbt/debian all main" | tee /etc/apt/sources.list.d/sbt.list && \
-    apt-get update && \
-    apt-get install -y sbt && \
+    apt-get install -y curl netcat-openbsd && \
     rm -rf /var/lib/apt/lists/*
+
+# 直接下载并安装 sbt（不依赖 keyserver）
+RUN curl -L -o sbt.tgz https://github.com/sbt/sbt/releases/download/v1.9.7/sbt-1.9.7.tgz && \
+    tar -xzf sbt.tgz -C /usr/local && \
+    ln -s /usr/local/sbt/bin/sbt /usr/bin/sbt && \
+    rm sbt.tgz
 
 # 复制项目文件
 COPY . .
