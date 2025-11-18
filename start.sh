@@ -2,6 +2,15 @@
 set -e
 
 echo "Starting Recipe API..."
+echo "================================"
+echo "Environment Variables Debug:"
+echo "PORT: $PORT"
+echo "DB_HOST: $DB_HOST"
+echo "DB_PORT: $DB_PORT"
+echo "DB_NAME: $DB_NAME"
+echo "DB_USER: $DB_USER"
+echo "DB_PASSWORD: ${DB_PASSWORD:0:3}*** (masked)"
+echo "================================"
 
 # 如果提供了 Render 数据库环境变量，构建 JDBC URL
 if [ -n "$DB_HOST" ]; then
