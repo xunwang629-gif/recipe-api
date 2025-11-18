@@ -3,7 +3,7 @@ services:
     name: recipe-api
     env: docker
     dockerfilePath: ./Dockerfile
-    healthCheckPath: /
+    # healthCheckPath: /  # 移除健康检查，使用 Render 默认机制
     envVars:
       - key: DB_HOST
         fromDatabase:
@@ -34,3 +34,5 @@ databases:
   - name: recipe-db
     databaseName: recipe_db
     user: recipe_user
+    plan: free
+    ipAllowList: []
