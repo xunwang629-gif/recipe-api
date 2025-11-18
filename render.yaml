@@ -5,20 +5,28 @@ services:
     dockerfilePath: ./Dockerfile
     healthCheckPath: /
     envVars:
-      - key: JDBC_DATABASE_URL
+      - key: DB_HOST
         fromDatabase:
           name: recipe-db
-          property: connectionString
-      - key: DATABASE_USERNAME
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: recipe-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: recipe-db
+          property: database
+      - key: DB_USER
         fromDatabase:
           name: recipe-db
           property: user
-      - key: DATABASE_PASSWORD
+      - key: DB_PASSWORD
         fromDatabase:
           name: recipe-db
           property: password
       - key: AUTO_APPLY_EVOLUTIONS
-        value: "false"
+        value: "true"
       - key: JAVA_OPTS
         value: -Xmx512m -Xms256m
 

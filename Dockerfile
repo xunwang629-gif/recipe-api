@@ -16,8 +16,11 @@ COPY . .
 # 构建项目
 RUN sbt stage
 
+# 添加启动脚本执行权限
+RUN chmod +x start.sh
+
 # 暴露端口 (Render 使用动态端口)
 EXPOSE ${PORT:-9000}
 
-# 启动应用
-CMD target/universal/stage/bin/recipe-api -Dhttp.port=${PORT:-9000}
+# 使用启动脚本
+CMD ["./start.sh"]
