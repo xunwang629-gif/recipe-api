@@ -2,7 +2,7 @@
 
 DROP TABLE IF EXISTS recipes;
 
-CREATE TABLE IF NOT EXISTS recipes (
+CREATE TABLE recipes (
     id SERIAL PRIMARY KEY,
     title varchar(100) NOT NULL,
     making_time varchar(100) NOT NULL,
@@ -12,19 +12,6 @@ CREATE TABLE IF NOT EXISTS recipes (
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
--- Trigger to auto-update updated_at column
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = CURRENT_TIMESTAMP;
-    RETURN NEW;
-END;
-$$ language 'plpgsql';
-
-CREATE TRIGGER update_recipes_updated_at BEFORE UPDATE
-    ON recipes FOR EACH ROW
-    EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO recipes (
     id,
