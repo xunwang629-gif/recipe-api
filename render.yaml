@@ -3,36 +3,5 @@ services:
     name: recipe-api
     env: docker
     dockerfilePath: ./Dockerfile
-    # healthCheckPath: /  # 移除健康检查，使用 Render 默认机制
-    envVars:
-      - key: DB_HOST
-        fromDatabase:
-          name: recipe-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: recipe-db
-          property: port
-      - key: DB_NAME
-        fromDatabase:
-          name: recipe-db
-          property: database
-      - key: DB_USER
-        fromDatabase:
-          name: recipe-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: recipe-db
-          property: password
-      - key: AUTO_APPLY_EVOLUTIONS
-        value: "true"
-      - key: JAVA_OPTS
-        value: -Xmx512m -Xms256m
-
-databases:
-  - name: recipe-db
-    databaseName: recipe_db
-    user: recipe_user
-    plan: free
-    ipAllowList: []
+    # 环境变量将在 Render Dashboard 手动配置
+    # 需要配置的变量: DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, AUTO_APPLY_EVOLUTIONS
