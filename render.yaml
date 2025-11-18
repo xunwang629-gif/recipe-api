@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: recipe-api
+    env: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: JDBC_DATABASE_URL
+        fromDatabase:
+          name: recipe-db
+          property: connectionString
+      - key: DATABASE_USERNAME
+        fromDatabase:
+          name: recipe-db
+          property: user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: recipe-db
+          property: password
+      - key: AUTO_APPLY_EVOLUTIONS
+        value: "false"
+      - key: JAVA_OPTS
+        value: -Xmx512m -Xms256m
+
+databases:
+  - name: recipe-db
+    databaseName: recipe_db
+    user: recipe_user

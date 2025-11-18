@@ -16,8 +16,8 @@ COPY . .
 # 构建项目
 RUN sbt stage
 
-# 暴露端口
-EXPOSE 9000
+# 暴露端口 (Render 使用动态端口)
+EXPOSE ${PORT:-9000}
 
 # 启动应用
-CMD ["target/universal/stage/bin/recipe-api", "-Dhttp.port=$PORT"]
+CMD target/universal/stage/bin/recipe-api -Dhttp.port=${PORT:-9000}
