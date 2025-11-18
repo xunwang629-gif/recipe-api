@@ -20,7 +20,7 @@ if [ -n "$DB_HOST" ]; then
   echo "DB_NAME: $DB_NAME"
   echo "DB_USER: $DB_USER"
 
-  export JDBC_DATABASE_URL="jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&connectTimeout=30000&socketTimeout=30000"
+  export JDBC_DATABASE_URL="jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=require&connectTimeout=30"
   export DATABASE_USER="$DB_USER"
   export DATABASE_PASSWORD="$DB_PASSWORD"
 

@@ -3,15 +3,28 @@
 DROP TABLE IF EXISTS recipes;
 
 CREATE TABLE IF NOT EXISTS recipes (
-    id integer PRIMARY KEY AUTO_INCREMENT,
-    title varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    making_time varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    serves varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-    ingredients varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+    id SERIAL PRIMARY KEY,
+    title varchar(100) NOT NULL,
+    making_time varchar(100) NOT NULL,
+    serves varchar(100) NOT NULL,
+    ingredients varchar(300) NOT NULL,
     cost integer NOT NULL,
-    created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at datetime on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Trigger to auto-update updated_at column
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = CURRENT_TIMESTAMP;
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_recipes_updated_at BEFORE UPDATE
+    ON recipes FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
 
 INSERT INTO recipes (
     id,

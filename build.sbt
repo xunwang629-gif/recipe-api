@@ -37,5 +37,5 @@ libraryDependencies += guice
 libraryDependencies += jdbc
 libraryDependencies += evolutions
 libraryDependencies += "com.h2database" % "h2" % "2.1.214"
-libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.33"
+libraryDependencies += "org.postgresql" % "postgresql" % "42.7.1"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test
