@@ -16,8 +16,8 @@ RUN curl -L -o sbt.tgz https://github.com/sbt/sbt/releases/download/v1.9.7/sbt-1
 # 复制项目文件
 COPY . .
 
-# 构建项目
-RUN sbt stage
+# 清理并构建项目（确保不使用旧的缓存）
+RUN sbt clean stage
 
 # 添加启动脚本执行权限
 RUN chmod +x start.sh
