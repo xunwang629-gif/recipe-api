@@ -2,9 +2,9 @@ FROM eclipse-temurin:11-jdk
 
 WORKDIR /app
 
-# 安装基础工具
+# 安装基础工具和 PostgreSQL 客户端
 RUN apt-get update && \
-    apt-get install -y curl netcat-openbsd && \
+    apt-get install -y curl netcat-openbsd postgresql-client && \
     rm -rf /var/lib/apt/lists/*
 
 # 直接下载并安装 sbt（不依赖 keyserver）

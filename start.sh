@@ -85,6 +85,15 @@ if [ -n "$DATABASE_URL" ]; then
   done
 
   echo "Database configuration successful!"
+
+  # 清理可能存在的失败 evolution 记录
+  echo "Cleaning play_evolutions table to ensure fresh start..."
+  export PGPASSWORD="$DB_PASS"
+
+  psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c "DROP TABLE IF EXISTS play_evolutions CASCADE;" 2>/dev/null || echo "play_evolutions table doesn't exist (this is fine)"
+
+  echo "Database is ready for fresh migrations!"
+
 # 如果提供了单独的数据库环境变量
 elif [ -n "$DB_HOST" ]; then
   echo "Configuring database connection..."
