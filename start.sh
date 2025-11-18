@@ -5,6 +5,7 @@ echo "Starting Recipe API..."
 echo "================================"
 echo "Environment Variables Debug:"
 echo "PORT: $PORT"
+echo "DATABASE_URL: ${DATABASE_URL:0:20}... (masked)"
 echo "DB_HOST: $DB_HOST"
 echo "DB_PORT: $DB_PORT"
 echo "DB_NAME: $DB_NAME"
@@ -12,8 +13,21 @@ echo "DB_USER: $DB_USER"
 echo "DB_PASSWORD: ${DB_PASSWORD:0:3}*** (masked)"
 echo "================================"
 
-# 如果提供了 Render 数据库环境变量，构建 JDBC URL
-if [ -n "$DB_HOST" ]; then
+# 优先使用 Render 自动提供的 DATABASE_URL
+if [ -n "$DATABASE_URL" ]; then
+  echo "Using DATABASE_URL from Render..."
+  # 将 postgresql:// 转换为 jdbc:postgresql://
+  export JDBC_DATABASE_URL=$(echo "$DATABASE_URL" | sed 's|^postgresql://|jdbc:postgresql://|')
+  # 添加 SSL 配置
+  if [[ "$JDBC_DATABASE_URL" != *"?"* ]]; then
+    export JDBC_DATABASE_URL="${JDBC_DATABASE_URL}?sslmode=require"
+  else
+    export JDBC_DATABASE_URL="${JDBC_DATABASE_URL}&sslmode=require"
+  fi
+  echo "JDBC_DATABASE_URL: ${JDBC_DATABASE_URL:0:40}... (masked)"
+  echo "Database configuration successful!"
+# 如果提供了单独的数据库环境变量
+elif [ -n "$DB_HOST" ]; then
   echo "Configuring database connection..."
   echo "DB_HOST: $DB_HOST"
   echo "DB_PORT: $DB_PORT"

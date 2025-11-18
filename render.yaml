@@ -3,5 +3,8 @@ services:
     name: recipe-api
     env: docker
     dockerfilePath: ./Dockerfile
-    # 环境变量将在 Render Dashboard 手动配置
-    # 需要配置的变量: DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, AUTO_APPLY_EVOLUTIONS
+    envVars:
+      - key: AUTO_APPLY_EVOLUTIONS
+        value: "true"
+    # DATABASE_URL will be automatically provided by Render when you connect the database
+    # Or manually add it in the Render Dashboard Environment settings
