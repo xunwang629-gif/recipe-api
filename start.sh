@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting Recipe API..."
+echo "Starting Recipe API (build timestamp: $(date))..."
 echo "================================"
 echo "Environment Variables Debug:"
 echo "PORT: $PORT"
