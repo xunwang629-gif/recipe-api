@@ -16,7 +16,7 @@ class RecipeController @Inject()(
   def create = Action(parse.json) { request =>
     request.body.validate[Recipe].fold(
       errors => {
-        BadRequest(Json.obj(
+        Ok(Json.obj(
           "message" -> "Recipe creation failed!",
           "required" -> "title, making_time, serves, ingredients, cost"
         ))
@@ -88,7 +88,7 @@ class RecipeController @Inject()(
   def update(id: Long) = Action(parse.json) { request =>
     request.body.validate[Recipe].fold(
       errors => {
-        BadRequest(Json.obj("message" -> "Recipe update failed!"))
+        Ok(Json.obj("message" -> "Recipe update failed!"))
       },
       recipe => {
         db.withConnection { conn =>
